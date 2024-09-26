@@ -1,0 +1,86 @@
+.container-main {
+    display: flex;
+    height: 100vh;
+}
+.left-section {
+    flex: 1;
+
+    background: 
+    linear-gradient(#0d8ba7, #88fbd6);
+    background: 
+    linear-gradient(in lch, #0d8ba7, #88fbd6);
+
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+.left-section h1 {
+    margin-bottom: 60px; /* Ajusta la separación del título respecto al párrafo */
+    margin-top: -50px; /* Sube el título un poco hacia arriba */
+}
+.left-section p {
+    max-width: 550px; /* Controla el ancho máximo del párrafo */
+    margin: 0 auto; /* Centra el párrafo horizontalmente */
+}
+.right-section {
+    flex: 1;
+    color:white;
+    background: 
+    linear-gradient(#423a68, #0d8ba7);
+    background: 
+    linear-gradient(in lch, #423a68, #0d8ba7);
+    
+    /* Colores de la paleta principal:
+        - Morado: #423a68
+        - Cian obscuro: #0d8ba7
+        - Cian claro: #11dfd0
+        - Calipso: #88fbd6
+    */
+
+    padding: 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.right-section p {
+    margin: 40px 0 10px; /* Controla la separación vertical entre textos y los botones */
+    font-size: 20px;
+}
+
+.right-section button {
+    margin-top: 10px;
+    width: 220px;
+    padding: 10px; /* Hace el botón más grande */
+    font-size: 16px; /* Aumenta el tamaño de la fuente del botón */
+
+}
+
+/* ####################################################################### */
+/* ####################################################################### */
+*{margin: 0; padding: 0;
+    box-sizing: border-box;}
+
+
+.footer {
+    background-color: #0d8ba7; /* Color de fondo oscuro */
+    background: #0d8ba7;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #667db6, #0d8ba7, #0d8ba7, #667db6);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #667db6, #0d8ba7, #0d8ba7, #667db6); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */    color: #ffffff; /* Color de texto blanco */
+
+    color: #ffffff; /* Color de texto blanco */
+}
+.footer a {
+    color: #ffffff; /* Color de los enlaces */
+    text-decoration: none; /* Sin subrayado */
+}
+.footer a:hover {
+    color: #d1d1d1; /* Cambia el color al pasar el cursor */
+}
+
+.margen-inferior {
+    margin-bottom: 5px;  /* Ajusta este valor según tus necesidades */
+}

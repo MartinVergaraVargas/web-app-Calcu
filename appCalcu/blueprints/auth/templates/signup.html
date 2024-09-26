@@ -1,0 +1,26 @@
+{% extends 'logLayout.html' %}
+
+{% block title %}Regístrate{% endblock %}
+
+{% block content %}
+<h2 class="text-center mb-4">Crea una Cuenta</h2>
+<form method="POST" action="{{ url_for('auth.signup_post') }}">
+    <div class="mb-3">
+        <label for="name" class="form-label">Nombre</label>
+        <input type="text" class="form-control" id="name" name="name" required>
+    </div>
+    <div class="mb-3">
+        <label for="email" class="form-label">Correo Electrónico</label>
+        <input type="email" class="form-control" id="email" name="email" required>
+    </div>
+    <div class="mb-3">
+        <label for="password" class="form-label">Contraseña</label>
+        <input type="password" class="form-control" id="password" name="password" required>
+    </div>
+    <button type="submit" class="btn btn-primary w-100">Registrarse</button>
+
+    <div class="text-center mt-3">
+        <p>¿Ya tienes cuenta? <a href="{{ url_for('auth.login') }}">Inicia sesión</a></p>
+    </div>
+</form>
+{% endblock %}

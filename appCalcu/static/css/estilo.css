@@ -1,0 +1,90 @@
+body{
+    /* background: #0F2027;
+    background: -webkit-linear-gradient(to right, #2C5364, #203A43, #0F2027);
+    background: linear-gradient(to right, #2C5364, #203A43, #0F2027); */
+    
+    /* margin: 0;
+    min-height: 100dvh;
+    display: flex; */
+
+    background: 
+    linear-gradient(#0d8ba7, #88fbd6);
+
+    background: 
+    linear-gradient(in lch, #0d8ba7, #88fbd6);
+
+    color:white;
+}
+
+*{margin: 0; padding: 0;
+    box-sizing: border-box;}
+
+.header{width:100%;
+    background-image: linear-gradient(to right, #b92b27, #1565c0);
+}
+.navbar {
+    /* background: #410f97;
+    background: -webkit-linear-gradient(to right, #512DA8, #410f97);
+    background: linear-gradient(to right, #512DA8, #410f97); */
+
+    /*background: #291244;
+    background: -webkit-linear-gradient(to right, #24243e, #302b63, #291244);
+    background: linear-gradient(to right, #24243e, #302b63, #291244); */
+
+    background: #423a68;
+    background: -webkit-linear-gradient(to right, #512DA8, #423a68);
+    background: linear-gradient(to right, #512DA8, #423a68);
+
+    /* Colores de la paleta principal:
+        - Morado: #423a68
+        - Cian obscuro: #0d8ba7
+        - Cian claro: #11dfd0
+        - Calipso: #88fbd6
+    
+    */
+}
+.navbar-brand{color: white !important;}
+.navbar-brand:hover{color: #4286f4!important;}
+.nav-link{color: white!important;}
+.nav-link:hover{color: #4286f4!important;}
+
+.footer {
+    background-color: #0d8ba7; /* Color de fondo oscuro */
+    background: #0d8ba7;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #667db6, #0d8ba7, #0d8ba7, #667db6);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #667db6, #0d8ba7, #0d8ba7, #667db6); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */    color: #ffffff; /* Color de texto blanco */
+
+    color: #ffffff; /* Color de texto blanco */
+}
+.footer a {
+    color: #ffffff; /* Color de los enlaces */
+    text-decoration: none; /* Sin subrayado */
+}
+.footer a:hover {
+    color: #d1d1d1; /* Cambia el color al pasar el cursor */
+}
+
+
+.margen-inferior {
+    margin-bottom: 5px;  /* Ajusta este valor según tus necesidades */
+}
+.badge-no-iniciada {
+    background-color: #999999; /* Gris */
+    color: white;
+}
+.badge-en-desarrollo {
+    background-color: #1565c0; /* Azul */
+    color: white;
+}
+.badge-terminada {
+    background-color: #5cb85c; /* Verde */
+    color: white;
+}
+.badge-cancelada {
+    background-color: #d9534f; /* Rojo */
+    color: white;
+}
+.badge-modificado {
+    background-color: #f0c24e; /* Naranjo */
+    color: white;
+}

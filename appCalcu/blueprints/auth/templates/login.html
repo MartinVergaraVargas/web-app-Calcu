@@ -1,0 +1,22 @@
+{% extends 'logLayout.html' %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+<h2 class="text-center mb-4">Iniciar Sesión</h2>
+<form method="POST" action="{{ url_for('auth.login_post') }}">
+    <div class="mb-3">
+        <label for="email" class="form-label">Correo Electrónico</label>
+        <input type="email" class="form-control" id="email" name="email" required>
+    </div>
+    <div class="mb-3">
+        <label for="password" class="form-label">Contraseña</label>
+        <input type="password" class="form-control" id="password" name="password" required>
+    </div>
+    <div class="form-check mb-3">
+        <input type="checkbox" class="form-check-input" id="remember" name="remember">
+        <label class="form-check-label" for="remember">Recuérdame</label>
+    </div>
+    <button type="submit" class="btn btn-primary w-100">Ingresar</button>
+</form>
+{% endblock %}
