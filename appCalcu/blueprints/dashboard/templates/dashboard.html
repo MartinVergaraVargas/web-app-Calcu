@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+    <header>
+        <h1>Empresa Dashboard</h1>
+    </header>
+    <nav>
+        <ul>
+            <li><a href="{{ url_for('main.index') }}">Home</a></li>
+            <li><a href="{{ url_for('dashboard.add_ubicaciones') }}">Añadir punto de venta</a></li>
+            <li><a href="{{ url_for('dashboard.add_ofertas') }}">Añadir ofertas</a></li>
+            <li><a href="{{ url_for('auth.logout') }}">Logout</a></li>
+        </ul>
+    </nav>
+    <main>
+        <p>Welcome to the Empresa Dashboard!</p>
+    </main>
+
+{% endblock%}

@@ -1,0 +1,43 @@
+{% extends 'logLayout.html' %}
+
+{% block title %}Registra tu empresa{% endblock %}
+
+{% block content %}
+<h2 class="text-center mb-4">Crea una Cuenta de Empresa</h2>
+<form action="{{ url_for('auth.signup_empresa_post') }}" method="POST">
+    <div class="mb-3">
+        <label for="rut" class="form-label">RUT</label>
+        <input type="text" class="form-control" id="rut" name="rut" required>
+    </div>
+    <div class="mb-3">
+        <label for="nombre" class="form-label">Nombre</label>
+        <input type="text" class="form-control" id="nombre" name="nombre" required>
+    </div>
+    <div class="mb-3">
+        <label for="telefono" class="form-label">Teléfono</label>
+        <input type="text" class="form-control" id="telefono" name="telefono">
+    </div>
+    <div class="mb-3">
+        <label for="email" class="form-label">Email</label>
+        <input type="email" class="form-control" id="email" name="email" required>
+    </div>
+    <div class="mb-3">
+        <label for="password" class="form-label">Password</label>
+        <input type="password" class="form-control" id="password" name="password" required>
+    </div>
+    <div class="mb-3">
+        <label for="sitio_web" class="form-label">Sitio Web</label>
+        <input type="text" class="form-control" id="sitio_web" name="sitio_web">
+    </div>
+    <div class="mb-3">
+        <label for="rubro" class="form-label">Rubro</label>
+        <input type="text" class="form-control" id="rubro" name="rubro">
+    </div>
+    <div class="mb-3">
+        <label for="descripcion" class="form-label">Descripción</label>
+        <textarea class="form-control" id="descripcion" name="descripcion"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Sign Up</button>
+</form>
+
+{% endblock %}

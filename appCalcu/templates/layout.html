@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calcu|{% block title %}{% endblock %}</title>
+    <title>Calcu | {% block title %}{% endblock %}</title>
     <!-- Incluir el CSS personalizado -->
     <link href="{{ url_for('static', filename='css/estilo.css') }}" rel="stylesheet">
     <!-- Bootstrap CSS -->
@@ -31,9 +31,22 @@
                 <li class="nav-item">
                     <a class="nav-link" href="#">Empresas Asociadas</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#" {% if not current_user.is_authenticated or current_user.is_anonymous %}style="display: none;"{% endif %}>Favoritos</a>
-                </li>
+                {% if current_user.is_authenticated and current_user.__class__.__name__ == 'Empresa' %}
+                    <li><a href="{{ url_for('empresa.dashboard') }}">Panel de Empresa</a></li>
+                    <li><a href="{{ url_for('main.empresa_ubicaciones') }}">Puntos de venta</a></li>
+                {% elif current_user.is_authenticated %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Ofertas
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="#" {% if not current_user.is_authenticated or current_user.is_anonymous %}style="display: none;"{% endif %}>Favoritos</a></li>
+                            <li><a class="dropdown-item" href="#">Descuentos</a></li>
+                            <li><a class="dropdown-item" href="#">Productos</a></li>
+                            <li><a class="dropdown-item" href="#">Servicios</a></li>
+                        </ul>
+                    </li>
+                {% endif %}
             </ul>
 
             <!-- Barra de búsqueda centrada -->
@@ -69,6 +82,9 @@
                             <li><a class="dropdown-item" href="#">Sugerencias</a></li>
                             <li><hr class="dropdown-divider"></li>
                             {% if current_user.is_authenticated %}
+                                {% if current_user.__class__.__name__ == 'Empresa' %}
+                                    <li><a class="dropdown-item" href="{{ url_for('main.empresa_dashboard') }}">Dashboard</a></li>
+                                {% endif %}            
                                 <li><a class="dropdown-item" href="{{ url_for('auth.logout') }}">Cerrar sesión</a></li>
                             {% endif %}
                         </ul>

@@ -4,7 +4,7 @@
 
 {% block content %}
 <h2 class="text-center mb-4">Iniciar Sesión</h2>
-<form method="POST" action="{{ url_for('auth.login_post') }}">
+<form method="POST" action="{{ url_for('auth.login') }}">
     <div class="mb-3">
         <label for="email" class="form-label">Correo Electrónico</label>
         <input type="email" class="form-control" id="email" name="email" required>

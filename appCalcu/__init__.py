@@ -27,20 +27,28 @@ def create_app():
     login_manager.init_app(app)
 
     # Importa el modelo User y configura el user_loader
-    from .models import User
+    from .models import User, Empresa
 
     @login_manager.user_loader
     def load_user(user_id):
-        return User.query.get(int(user_id))
+        # Try to load the user from the User model
+        user = User.query.get(int(user_id))
+        if user:
+            return user
+        # If not found, try to load from the Empresa model
+        return Empresa.query.get(int(user_id))
 
     from .blueprints.main.main import main_bp
-    app.register_blueprint(main_bp)
+    app.register_blueprint(main_bp, url_prefix='/')
 
     from .blueprints.calculadora.calculadora import calculadora_bp
     app.register_blueprint(calculadora_bp, url_prefix='/calculadora')
 
     from .blueprints.auth.auth import auth_bp
     app.register_blueprint(auth_bp, url_prefix='/auth')
+
+    from .blueprints.dashboard.dashboard import dashboard_bp
+    app.register_blueprint(dashboard_bp, url_prefix='/dashboard')
 
     return app
 
