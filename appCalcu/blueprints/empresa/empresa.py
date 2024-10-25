@@ -6,7 +6,7 @@ from wtforms.validators import DataRequired
 from appCalcu.models import db, Ubicacion, Oferta, UbicacionOferta
 
 # Define the blueprint
-dashboard_bp = Blueprint('dashboard', __name__, template_folder='templates')
+empresa_bp = Blueprint('empresa', __name__, template_folder='templates')
 
 # Define the forms
 class UbicacionForm(FlaskForm):
@@ -26,12 +26,12 @@ class OfertaForm(FlaskForm):
     submit = SubmitField('Agregar Oferta')
 
 # Define the routes
-@dashboard_bp.route('/dashboard')
+@empresa_bp.route('/empresa')
 @login_required
-def dashboard():
-    return render_template('dashboard.html')
+def empresa():
+    return render_template('empresa.html')
 
-@dashboard_bp.route('/dashboard/add_ubicaciones', methods=['GET', 'POST'])
+@empresa_bp.route('/empresa/add_ubicaciones', methods=['GET', 'POST'])
 @login_required
 def add_ubicaciones():
     form = UbicacionForm()
@@ -52,11 +52,11 @@ def add_ubicaciones():
         db.session.add(new_ubicaciones)
         db.session.commit()
         flash('ubicaciones added successfully!', 'success')
-        return redirect(url_for('dashboard.dashboard'))
+        return redirect(url_for('empresa.empresa'))
 
     return render_template('add_ubicaciones.html', form=form)
 
-@dashboard_bp.route('/dashboard/add_ofertas', methods=['GET', 'POST'])
+@empresa_bp.route('/empresa/add_ofertas', methods=['GET', 'POST'])
 @login_required
 def add_ofertas():
     form = OfertaForm()
@@ -81,6 +81,6 @@ def add_ofertas():
         db.session.add(new_oferta)
         db.session.commit()
         flash('Offer added successfully!', 'success')
-        return redirect(url_for('dashboard.dashboard'))
+        return redirect(url_for('empresa.empresa'))
 
     return render_template('add_ofertas.html', form=form)

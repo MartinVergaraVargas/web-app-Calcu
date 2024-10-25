@@ -10,6 +10,8 @@ __pycache__/
 # Archivos de migración de bases de datos locales
 migrations/
 instance/
+diagramaDeClases.dia
+diagramaDeClases.dia.autosave
 
 # Archivos de configuración de IDEs y sistemas operativos
 .vscode/

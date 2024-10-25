@@ -1,0 +1,204 @@
+{% extends 'dashboard-base.html' %}
+
+{% block gestion %}
+<!-- Header -->
+<div class="flex justify-between items-center mb-6">
+    {% block titulo_panel %} Registrar Nueva Empresa {% endblock %}
+    <a href="{{ url_for('admin.empresas') }}" 
+       class="flex items-center px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors">
+        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+        </svg>
+        Volver
+    </a>
+</div>
+
+<!-- Formulario -->
+<div class="bg-white rounded-lg shadow-lg p-6">
+    <form method="POST" action="{{ url_for('admin.registrar_empresa') }}" class="space-y-6" id="registroForm">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+        <!-- Información de Cuenta -->
+        <div class="border-b border-gray-200 pb-6">
+            <h2 class="text-lg font-medium text-gray-900 mb-4">Información de Cuenta</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label for="email" class="block text-sm font-medium text-gray-700">Email *</label>
+                    <input type="email" 
+                           name="email" 
+                           id="email" 
+                           required 
+                           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#0d8ba7] focus:ring focus:ring-[#0d8ba7] focus:ring-opacity-50">
+                </div>
+                <div>
+                    <label for="password" class="block text-sm font-medium text-gray-700">Contraseña *</label>
+                    <input type="password" 
+                           name="password" 
+                           id="password" 
+                           required 
+                           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#0d8ba7] focus:ring focus:ring-[#0d8ba7] focus:ring-opacity-50">
+                    <p class="mt-1 text-sm text-gray-500">Mínimo 6 caracteres</p>
+                </div>
+            </div>
+        </div>
+    
+        <!-- Información de Empresa -->
+        <div class="space-y-4">
+            <h2 class="text-lg font-medium text-gray-900">Información de Empresa</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- RUT -->
+                <div>
+                    <label for="rut" class="block text-sm font-medium text-gray-700">RUT Empresa *</label>
+                    <input type="text" 
+                           name="rut" 
+                           id="rut" 
+                           required 
+                           pattern="^[0-9]+-[0-9kK]$"
+                           placeholder="12345678-9"
+                           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#0d8ba7] focus:ring focus:ring-[#0d8ba7] focus:ring-opacity-50">
+                </div>
+                <!-- Nombre -->
+                <div>
+                    <label for="nombre" class="block text-sm font-medium text-gray-700">Nombre *</label>
+                    <input type="text" 
+                           name="nombre" 
+                           id="nombre" 
+                           required 
+                           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#0d8ba7] focus:ring focus:ring-[#0d8ba7] focus:ring-opacity-50">
+                </div>
+                <!-- Teléfono -->
+                <div>
+                    <label for="telefono" class="block text-sm font-medium text-gray-700">Teléfono *</label>
+                    <input type="text" 
+                           name="telefono" 
+                           id="telefono" 
+                           required 
+                           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#0d8ba7] focus:ring focus:ring-[#0d8ba7] focus:ring-opacity-50">
+                </div>
+                <!-- Sitio Web -->
+                <div>
+                    <label for="sitio_web" class="block text-sm font-medium text-gray-700">Sitio Web</label>
+                    <input type="url" 
+                           name="sitio_web" 
+                           id="sitio_web" 
+                           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#0d8ba7] focus:ring focus:ring-[#0d8ba7] focus:ring-opacity-50">
+                </div>
+                <!-- Rubro -->
+                <div>
+                    <label for="rubro" class="block text-sm font-medium text-gray-700">Rubro *</label>
+                    <input type="text" 
+                           name="rubro" 
+                           id="rubro" 
+                           required 
+                           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#0d8ba7] focus:ring focus:ring-[#0d8ba7] focus:ring-opacity-50">
+                </div>
+                <!-- Descripción -->
+                <div>
+                    <label for="descripcion" class="block text-sm font-medium text-gray-700">Descripción</label>
+                    <textarea name="descripcion" 
+                              id="descripcion" 
+                              class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#0d8ba7] focus:ring focus:ring-[#0d8ba7] focus:ring-opacity-50"></textarea>
+                </div>
+            </div>
+        </div>
+        <!-- Botones de acción -->
+        <div class="flex justify-end space-x-4 pt-6 border-t border-gray-200">
+            <button type="button" 
+                    onclick="window.location.href='{{ url_for('admin.empresas') }}'"
+                    class="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#0d8ba7]">
+                Cancelar
+            </button>
+            <button type="submit" 
+                    class="flex items-center px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors">
+                Registrar Empresa
+            </button>
+        </div>
+    </form>
+</div>
+
+<script>
+    // Validación de RUT chileno
+    document.getElementById('rut').addEventListener('input', function(e) {
+        let value = e.target.value;
+        // Eliminar caracteres no permitidos
+        value = value.replace(/[^0-9kK-]/g, '');
+        
+        // Formatear automáticamente el guión
+        if (value.length > 1) {
+            let parts = value.split('-');
+            if (parts.length === 1) {
+                if (value.length > 7) {
+                    value = value.slice(0, -1) + '-' + value.slice(-1);
+                }
+            } else if (parts[1].length > 1) {
+                value = parts[0] + '-' + parts[1].slice(0, 1);
+            }
+        }
+        
+        e.target.value = value;
+    });
+
+    // Validación del formulario antes de enviar
+    document.getElementById('registroForm').addEventListener('submit', function(e) {
+        let password = document.getElementById('password').value;
+        let rut = document.getElementById('rut').value;
+        let isValid = true;
+        
+        // Validar contraseña
+        if (password.length < 6) {
+            alert('La contraseña debe tener al menos 6 caracteres');
+            isValid = false;
+        }
+
+        // Validar formato de RUT
+        if (!validarRut(rut)) {
+            alert('El formato del RUT no es válido');
+            isValid = false;
+        }
+
+        if (!isValid) {
+            e.preventDefault();
+        }
+    });
+
+    // Función para validar RUT chileno
+    function validarRut(rut) {
+        if (!/^[0-9]+-[0-9kK]{1}$/.test(rut)) return false;
+        
+        let valores = rut.split('-');
+        let numero = valores[0];
+        let dv = valores[1].toLowerCase();
+        
+        let suma = 0;
+        let multiplicador = 2;
+        
+        for (let i = numero.length - 1; i >= 0; i--) {
+            suma += parseInt(numero[i]) * multiplicador;
+            multiplicador = multiplicador === 7 ? 2 : multiplicador + 1;
+        }
+        
+        let dvEsperado = 11 - (suma % 11);
+        dvEsperado = dvEsperado === 11 ? '0' : dvEsperado === 10 ? 'k' : dvEsperado.toString();
+        
+        return dv === dvEsperado;
+    }
+
+    // Formatear teléfono mientras se escribe
+    document.getElementById('telefono').addEventListener('input', function(e) {
+        let value = e.target.value.replace(/\D/g, '');
+        if (value.length > 0) {
+            if (value.length <= 3) {
+                value = '+' + value;
+            } else if (value.length <= 5) {
+                value = '+' + value.slice(0, 2) + ' ' + value.slice(2);
+            } else if (value.length <= 9) {
+                value = '+' + value.slice(0, 2) + ' ' + value.slice(2, 3) + ' ' + value.slice(3);
+            } else {
+                value = '+' + value.slice(0, 2) + ' ' + value.slice(2, 3) + ' ' + 
+                        value.slice(3, 7) + ' ' + value.slice(7, 11);
+            }
+        }
+        e.target.value = value;
+    });
+</script>
+{% endblock %}

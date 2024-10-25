@@ -12,11 +12,7 @@ def bienvenida():
 
 @main_bp.route("/")
 def index():
-    if current_user.is_authenticated:
-        return render_template('home.html')
-    else:
-        return render_template('bienvenida.html')
-
+    return render_template('home.html')
 
 
 @main_bp.route("/nosotros")

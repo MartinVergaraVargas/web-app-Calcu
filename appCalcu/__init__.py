@@ -1,4 +1,5 @@
 from flask import Flask
+from flask_wtf.csrf import CSRFProtect
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_migrate import Migrate
@@ -12,10 +13,12 @@ def create_app():
 
     # Configuración básica de la aplicación
     app.config['SECRET_KEY'] = 'secret-key-goes-here'
+    csrf = CSRFProtect(app)
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
 
     # Inicializa la base de datos con la app
     db.init_app(app)
+    csrf.init_app(app)
 
     # Inicializa Migrate después de configurar la base de datos
     migrate = Migrate(app, db)
@@ -27,28 +30,39 @@ def create_app():
     login_manager.init_app(app)
 
     # Importa el modelo User y configura el user_loader
-    from .models import User, Empresa
+    from .models import CommonUser, Empresa, Administrador
+    from .blueprints.auth.auth import auth_bp, GuestUser
 
     @login_manager.user_loader
     def load_user(user_id):
-        # Try to load the user from the User model
-        user = User.query.get(int(user_id))
+        if user_id == 'guest':
+            return GuestUser()
+        try:
+            user_id = int(user_id)
+        except ValueError:
+            return None
+        user = CommonUser.query.get(user_id)
         if user:
             return user
-        # If not found, try to load from the Empresa model
-        return Empresa.query.get(int(user_id))
+        user = Empresa.query.get(user_id)
+        if user:
+            return user
+        return Administrador.query.get(user_id)
 
     from .blueprints.main.main import main_bp
     app.register_blueprint(main_bp, url_prefix='/')
 
-    from .blueprints.calculadora.calculadora import calculadora_bp
-    app.register_blueprint(calculadora_bp, url_prefix='/calculadora')
+    # from .blueprints.calculadora.calculadora import calculadora_bp
+    # app.register_blueprint(calculadora_bp, url_prefix='/calculadora')
 
-    from .blueprints.auth.auth import auth_bp
+    
     app.register_blueprint(auth_bp, url_prefix='/auth')
 
-    from .blueprints.dashboard.dashboard import dashboard_bp
-    app.register_blueprint(dashboard_bp, url_prefix='/dashboard')
+    from .blueprints.empresa.empresa import empresa_bp
+    app.register_blueprint(empresa_bp, url_prefix='/empresa')
+
+    from .blueprints.administracion.administracion import admin_bp
+    app.register_blueprint(admin_bp, url_prefix='/admin')
 
     return app
 

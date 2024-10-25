@@ -1,13 +1,63 @@
 {% extends "layout.html" %}
 
 {% block content %}
+<div class="container mt-4">
+    <!-- ofertas -->
+    <section class="ofertas">
+      <h2>Ofertas Destacadas</h2>
+      <div class="ofertas-grid">
+          <!-- oferta Card 1 -->
+          <div class="oferta-card">
+              <div class="oferta-image">
+                  <img src="/api/placeholder/200/200" alt="Oferta 1">
+              </div>
+              <h3 class="oferta-title">Auriculares Inalámbricos Bluetooth</h3>
+              <p class="oferta-price">€29.99</p>
+              <p>4.5 ★ | 2345 vendidos</p>
+          </div>
 
-<div class="jumbotron">
-  <h1 class="display-4">Hello, world!</h1>
-  <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
-  <hr class="my-4">
-  <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
-  <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
+          <!-- oferta Card 2 -->
+          <div class="oferta-card">
+              <div class="oferta-image">
+                  <img src="/api/placeholder/200/200" alt="Oferta 2">
+              </div>
+              <h3 class="oferta-title">Smartwatch Deportivo</h3>
+              <p class="oferta-price">€45.99</p>
+              <p>4.7 ★ | 1890 vendidos</p>
+          </div>
+
+          <!-- oferta Card 3 -->
+          <div class="oferta-card">
+              <div class="oferta-image">
+                  <img src="/api/placeholder/200/200" alt="Oferta 3">
+              </div>
+              <h3 class="oferta-title">Funda de Teléfono Premium</h3>
+              <p class="oferta-price">€12.99</p>
+              <p>4.3 ★ | 3456 vendidos</p>
+          </div>
+
+          <!-- oferta Card 4 -->
+          <div class="oferta-card">
+              <div class="oferta-image">
+                  <img src="/api/placeholder/200/200" alt="Oferta 4">
+              </div>
+              <h3 class="oferta-title">Cargador Rápido USB-C</h3>
+              <p class="oferta-price">€19.99</p>
+              <p>4.6 ★ | 2789 vendidos</p>
+          </div>
+
+          <!-- oferta Card 5 -->
+          <div class="oferta-card">
+            <div class="oferta-image">
+                <img src="/api/placeholder/200/200" alt="Oferta 5">
+            </div>
+            <h3 class="oferta-title">Cargador Rápido USB-C</h3>
+            <p class="oferta-price">€19.99</p>
+            <p>4.6 ★ | 2789 vendidos</p>
+          </div>
+      </div>
+  </section>
 </div>
-
+  
+</div>
 {% endblock%}

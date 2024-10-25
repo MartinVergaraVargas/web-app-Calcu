@@ -1,90 +1,449 @@
-body{
-    /* background: #0F2027;
-    background: -webkit-linear-gradient(to right, #2C5364, #203A43, #0F2027);
-    background: linear-gradient(to right, #2C5364, #203A43, #0F2027); */
-    
-    /* margin: 0;
-    min-height: 100dvh;
-    display: flex; */
+/* Variables globales para la paleta de colores */
+:root {
+    --primary-dark: #423a68;
+    --primary-cyan-dark: #0d8ba7;
+    --primary-cyan-light: #11dfd0;
+    --primary-calipso: #88fbd6;
+    --gradient-navbar: linear-gradient(to right, #4c497d, #0a7591, #0a7591, #4c497d);
+    --gradient-body: linear-gradient(#88fbd6, #0d8ba7);
+}
 
+/* Navbar mejorada */
+.navbar {
+    background: var(--gradient-navbar);
+    padding: 1rem 0;
+}
+
+/* Ajuste del container-fluid para los márgenes laterales */
+.navbar .container-fluid {
+    width: 90%;
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* Ajustes para el logo y marca */
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    color: white !important;
+    margin-right: 2rem;
+}
+/* Contenedor del menú principal */
+.navbar-collapse {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-grow: 1;
+}
+
+.navbar-brand:hover {
+    color: var(--primary-calipso) !important;
+}
+
+.nav-link {
+    color: white !important;
+    transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+    color: var(--primary-calipso) !important;
+}
+
+/* Lista de navegación */
+.navbar-nav {
+    display: flex;
+    align-items: center;
+    margin-right: auto;
+}
+
+/* Contenedor del buscador */
+.search-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto;
+}
+
+/* Estilos del formulario de búsqueda */
+.form-control {
+    background: rgba(255, 255, 255, 0.9) !important;
+    border: none;
+    border-radius: 20px;
+    padding: 0.5rem 1rem;
+    width: 100%;
+}
+
+.form-control:focus {
+    background: white !important;
+    box-shadow: 0 0 0 2px var(--primary-calipso);
+}
+
+.header{width:100%;
+    background-image: linear-gradient(to right, #b92b27, #1565c0);
+}
+
+body{
     background: 
     linear-gradient(#0d8ba7, #88fbd6);
 
     background: 
     linear-gradient(in lch, #0d8ba7, #88fbd6);
 
-    color:white;
+    background: var(--gradient-body);
+    color: white;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ofertas Grid */
+.ofertas {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+.ofertas-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+.oferta-card {
+    border: 1px solid #eee;
+    border-radius: 8px;
+    padding: 1rem;
+    transition: transform 0.2s;
+}
+
+.oferta-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.oferta-image {
+    width: 100%;
+    height: 200px;
+    background-color: #f5f5f5;
+    margin-bottom: 1rem;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.oferta-price {
+    color: #ff4747;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.oferta-title {
+    margin: 0.5rem 0;
+    font-size: 0.9rem;
+}
+
+/* Nosotros */
+.nosotros-app {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+.nosotros-equipo {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+.nosotros-equipo .img-fluid {
+    width: 150px; /* Ajusta el tamaño de la imagen según sea necesario */
+    height: auto;
+    border-radius: 50%; /* Hace que la imagen sea circular */
+    margin-right: 20px; /* Espacio entre la imagen y el texto */
+}
+
+.nosotros-equipo .text-justify {
+    text-align: justify;
+}
+
+.nosotros-equipo .d-flex {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.nosotros-equipo .row {
+    margin-bottom: 20px; /* Espacio entre filas */
+}
+
+.nosotros-equipo .col-md-6 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.nosotros-equipo .col-md-12 {
+    margin-bottom: 20px; /* Espacio entre el título y el contenido */
 }
 
 *{margin: 0; padding: 0;
     box-sizing: border-box;}
 
-.header{width:100%;
-    background-image: linear-gradient(to right, #b92b27, #1565c0);
-}
-.navbar {
-    /* background: #410f97;
-    background: -webkit-linear-gradient(to right, #512DA8, #410f97);
-    background: linear-gradient(to right, #512DA8, #410f97); */
-
-    /*background: #291244;
-    background: -webkit-linear-gradient(to right, #24243e, #302b63, #291244);
-    background: linear-gradient(to right, #24243e, #302b63, #291244); */
-
+.footer {
+    /* Colores originales de la barra de navegacion */
     background: #423a68;
     background: -webkit-linear-gradient(to right, #512DA8, #423a68);
     background: linear-gradient(to right, #512DA8, #423a68);
 
-    /* Colores de la paleta principal:
-        - Morado: #423a68
-        - Cian obscuro: #0d8ba7
-        - Cian claro: #11dfd0
-        - Calipso: #88fbd6
-    
-    */
-}
-.navbar-brand{color: white !important;}
-.navbar-brand:hover{color: #4286f4!important;}
-.nav-link{color: white!important;}
-.nav-link:hover{color: #4286f4!important;}
-
-.footer {
-    background-color: #0d8ba7; /* Color de fondo oscuro */
-    background: #0d8ba7;  /* fallback for old browsers */
-    background: -webkit-linear-gradient(to right, #667db6, #0d8ba7, #0d8ba7, #667db6);  /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to right, #667db6, #0d8ba7, #0d8ba7, #667db6); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */    color: #ffffff; /* Color de texto blanco */
-
     color: #ffffff; /* Color de texto blanco */
+    /* position: fixed; */
+    /* width: 100%;
+    height: 20%;
+    bottom: 0; */
+    padding: 3rem 0;
+    margin-top: auto;
+
 }
 .footer a {
     color: #ffffff; /* Color de los enlaces */
     text-decoration: none; /* Sin subrayado */
 }
-.footer a:hover {
-    color: #d1d1d1; /* Cambia el color al pasar el cursor */
+.social-links a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background-color: #e9ecef;
+    color: black;
+    margin: 0 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.social-links a:hover {
+    background-color: var(--primary-cyan-dark);
+    color: white;
+    transform: translateY(-2px);
+}
+
+.footer-links a {
+    color: #ffffff;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer-links a:hover {
+    color: gray;
 }
 
 
 .margen-inferior {
     margin-bottom: 5px;  /* Ajusta este valor según tus necesidades */
 }
-.badge-no-iniciada {
-    background-color: #999999; /* Gris */
-    color: white;
+
+/* ####################################################################### */
+/* ####################################################################### */
+/* Estilos para las páginas de dashboard */
+.left-section {
+    background: 
+    linear-gradient(#0d8ba7, #88fbd6);
+    background: 
+    linear-gradient(in lch, #0d8ba7, #88fbd6);
+
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color:black;
+
 }
-.badge-en-desarrollo {
-    background-color: #1565c0; /* Azul */
-    color: white;
+.right-section {
+    color:white;
+    background: 
+    linear-gradient(#423a68, #0d8ba7);
+    background: 
+    linear-gradient(in lch, #423a68, #0d8ba7);
+    
+    /* Colores de la paleta principal:
+        - Morado: #423a68
+        - Cian obscuro: #0d8ba7
+        - Cian claro: #11dfd0
+        - Calipso: #88fbd6
+    */
+
+    padding: 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
-.badge-terminada {
-    background-color: #5cb85c; /* Verde */
-    color: white;
+.right-section p {
+    margin: 40px 0 10px; /* Controla la separación vertical entre textos y los botones */
+    font-size: 20px;
 }
-.badge-cancelada {
-    background-color: #d9534f; /* Rojo */
-    color: white;
+
+.right-section button {
+    margin-top: 10px;
+    width: 220px;
+    padding: 10px; /* Hace el botón más grande */
+    font-size: 16px; /* Aumenta el tamaño de la fuente del botón */
+
 }
-.badge-modificado {
-    background-color: #f0c24e; /* Naranjo */
-    color: white;
+/* ################################################################################################## */
+/* ################################################################################################## */
+
+/* About */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+    line-height: 1.6;
+    color: #333;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+/* Primera Sección */
+.hero {
+    text-align: center;
+    margin-bottom: 80px;
+}
+
+.hero h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+    color: #1a1a1a;
+}
+
+.hero p {
+    max-width: 800px;
+    margin: 0 auto;
+    font-size: 1.1rem;
+    color: #555;
+}
+
+/* Subsecciones */
+.subsections {
+    margin: 60px 0;
+}
+
+.subsection {
+    margin: 40px 0;
+    padding: 20px;
+}
+
+.subsection h2 {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+    color: #2a2a2a;
+}
+
+.subsection p {
+    max-width: 600px;
+    line-height: 1.8;
+}
+
+.right-aligned {
+    text-align: right;
+}
+
+.right-aligned p {
+    margin-left: auto;
+}
+
+.left-aligned {
+    text-align: left;
+}
+
+/* Segunda Sección - Equipo */
+.team {
+    margin-top: 80px;
+}
+
+.team h2 {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 40px;
+}
+
+.team-member {
+    display: flex;
+    align-items: center;
+    margin: 40px 0;
+    gap: 40px;
+    padding: 20px;
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.team-member.reverse {
+    flex-direction: row-reverse;
+}
+
+.member-image {
+    flex: 0 0 300px;
+}
+
+.member-image img {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+.member-info {
+    flex: 1;
+}
+
+.member-info h3 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: #1a1a1a;
+}
+
+.member-info .role {
+    font-size: 1.1rem;
+    color: #666;
+    margin-bottom: 1rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .team-member, 
+    .team-member.reverse {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .member-image {
+        flex: 0 0 auto;
+        width: 100%;
+        max-width: 300px;
+        margin: 0 auto;
+    }
+
+    .right-aligned,
+    .left-aligned {
+        text-align: center;
+    }
+
+    .right-aligned p,
+    .left-aligned p {
+        margin: 0 auto;
+    }
 }

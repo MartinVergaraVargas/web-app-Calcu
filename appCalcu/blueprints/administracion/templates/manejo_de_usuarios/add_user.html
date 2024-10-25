@@ -1,0 +1,58 @@
+{% extends "config_layout.html" %}
+
+{% block title %}Add User{% endblock %}
+
+{% block left_section %}
+<h1>Admin Dashboard</h1>
+<nav>
+    <ul class="nav flex-column">
+        <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('admin.usuarios') }}">Usuarios</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('admin.empresas') }}">Empresas</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('admin.ofertas') }}">Ofertas</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('admin.ubicaciones') }}">Ubicaciones</a>
+        </li>
+    </ul>
+</nav>
+{% endblock %}
+
+{% block right_section %}
+<h2>Add Common User</h2>
+<form method="POST">
+    <div class="mb-3">
+        <label for="name" class="form-label">Name</label>
+        <input type="text" class="form-control" id="name" name="name" required>
+    </div>
+    <div class="mb-3">
+        <label for="apellido1" class="form-label">Apellido1</label>
+        <input type="text" class="form-control" id="apellido1" name="apellido1" required>
+    </div>
+    <div class="mb-3">
+        <label for="apellido2" class="form-label">Apellido2</label>
+        <input type="text" class="form-control" id="apellido2" name="apellido2">
+    </div>
+    <div class="mb-3">
+        <label for="fecha_nacimiento" class="form-label">Fecha de Nacimiento</label>
+        <input type="date" class="form-control" id="fecha_nacimiento" name="fecha_nacimiento" required>
+    </div>
+    <div class="mb-3">
+        <label for="telefono" class="form-label">Telefono</label>
+        <input type="text" class="form-control" id="telefono" name="telefono">
+    </div>
+    <div class="mb-3">
+        <label for="email" class="form-label">Email</label>
+        <input type="email" class="form-control" id="email" name="email" required>
+    </div>
+    <div class="mb-3">
+        <label for="password" class="form-label">Password</label>
+        <input type="password" class="form-control" id="password" name="password" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Add User</button>
+</form>
+{% endblock %}

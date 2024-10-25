@@ -1,7 +1,103 @@
 {% extends "layout.html" %}
 
 {% block content %}
+<div class="container">
+    <!-- Primera Sección -->
+    <section class="hero">
+        <h1>¿Qué es EcoSistema?</h1>
+        <p>
+            EcoSistema es una plataforma innovadora que conecta a consumidores conscientes con servicios 
+            y productos sostenibles. Nuestra aplicación facilita el acceso a alternativas ecológicas y 
+            promueve un estilo de vida más respetuoso con el medio ambiente.
+        </p>
+    </section>
 
-<h1>About</h1>
+    <!-- Subsecciones -->
+    <div class="subsections">
+        <div class="subsection right-aligned">
+            <h2>Misión</h2>
+            <p>
+                Facilitar y promover la transición hacia un consumo más sostenible, conectando a las personas 
+                con soluciones ecológicas accesibles y creando un impacto positivo en nuestro planeta.
+            </p>
+        </div>
 
-{% endblock%}
+        <div class="subsection left-aligned">
+            <h2>Visión</h2>
+            <p>
+                Ser la plataforma líder en la promoción de la sostenibilidad, creando una comunidad global 
+                comprometida con el cuidado del medio ambiente y el consumo responsable.
+            </p>
+        </div>
+
+        <div class="subsection right-aligned">
+            <h2>Valores</h2>
+            <p>
+                Sostenibilidad, Innovación, Transparencia, Colaboración y Compromiso son los pilares 
+                fundamentales que guían nuestras acciones y decisiones en EcoSistema.
+            </p>
+        </div>
+    </div>
+
+    <!-- Segunda Sección - Equipo -->
+    <section class="team">
+        <h2>Nuestro Equipo</h2>
+
+        <div class="team-member">
+            <div class="member-image">
+                <img src="/api/placeholder/300/300" alt="Ana García">
+            </div>
+            <div class="member-info">
+                <h3>Ana García</h3>
+                <p class="role">CEO & Fundadora</p>
+                <p>Con más de 10 años de experiencia en sostenibilidad y tecnología, Ana lidera la visión estratégica de EcoSistema.</p>
+            </div>
+        </div>
+
+        <div class="team-member reverse">
+            <div class="member-image">
+                <img src="/api/placeholder/300/300" alt="Carlos Rodríguez">
+            </div>
+            <div class="member-info">
+                <h3>Carlos Rodríguez</h3>
+                <p class="role">CTO</p>
+                <p>Experto en desarrollo de software y soluciones tecnológicas sostenibles, Carlos dirige el equipo técnico de EcoSistema.</p>
+            </div>
+        </div>
+
+        <div class="team-member">
+            <div class="member-image">
+                <img src="/api/placeholder/300/300" alt="María López">
+            </div>
+            <div class="member-info">
+                <h3>María López</h3>
+                <p class="role">Directora de Sostenibilidad</p>
+                <p>Especialista en medio ambiente y economía circular, María gestiona las estrategias de sostenibilidad de la plataforma.</p>
+            </div>
+        </div>
+
+        <div class="team-member reverse">
+            <div class="member-image">
+                <img src="/api/placeholder/300/300" alt="Juan Martínez">
+            </div>
+            <div class="member-info">
+                <h3>Juan Martínez</h3>
+                <p class="role">Director de Marketing</p>
+                <p>Con amplia experiencia en marketing digital y comunicación ambiental, Juan lidera las estrategias de crecimiento.</p>
+            </div>
+        </div>
+
+        <div class="team-member">
+            <div class="member-image">
+                <img src="/api/placeholder/300/300" alt="Laura Sánchez">
+            </div>
+            <div class="member-info">
+                <h3>Laura Sánchez</h3>
+                <p class="role">Directora de Operaciones</p>
+                <p>Experta en gestión de proyectos y procesos sostenibles, Laura optimiza las operaciones de EcoSistema.</p>
+            </div>
+        </div>
+    </section>
+</div>
+
+{% endblock %}

@@ -1,0 +1,49 @@
+{% extends "config_layout.html" %}
+
+{% block title %}Usuarios{% endblock %}
+
+{% block left_section %}
+<h1>Admin Dashboard</h1>
+<nav>
+    <ul class="nav flex-column">
+        <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('admin.usuarios') }}">Usuarios</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('admin.empresas') }}">Empresas</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('admin.ofertas') }}">Ofertas</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('admin.ubicaciones') }}">Ubicaciones</a>
+        </li>
+    </ul>
+</nav>
+{% endblock %}
+
+{% block right_section %}
+<h2>Usuarios</h2>
+<button class="btn btn-primary mb-3" onclick="window.location.href='{{ url_for('admin.add_user') }}'">Añadir usuario</button>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Email</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for user in users %}
+        <tr>
+            <td>{{ user.name }}</td>    
+            <td>{{ user.email }}</td>
+            <td>
+                <button class="btn btn-warning btn-sm" onclick="window.location.href='{{ url_for('admin.edit_user', user_id=user.id) }}'">Editar</button>
+                <button class="btn btn-danger btn-sm" onclick="window.location.href='{{ url_for('admin.delete_user', user_id=user.id) }}'">Eliminar</button>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

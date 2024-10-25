@@ -1,0 +1,124 @@
+{% extends 'layout.html' %}
+
+{% block head %}
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{% block title %} {% endblock %}</title>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+        <style>
+            .sidebar-link:hover {
+                background-color: rgba(72, 187, 120, 0.1);
+            }
+            .card-hover:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            }
+        </style>
+    </head>
+{% endblock %}
+
+{% block content %}
+<body class="bg-gray-100">
+    <div class="flex h-screen">
+        <!-- Sidebar -->
+        <aside class="w-64 bg-white shadow-lg">
+            <div class="p-4 border-b">
+                <h2 class="text-2xl font-bold text-green-600">EcoSistema</h2>
+                <p class="text-sm text-gray-600" id="userType">Panel de {{ current_user.__class__.__name__ }}</p>
+            </div>
+                
+            <!-- Menú -->
+            <div id="menu">
+                <nav class="p-4">
+                    <h3 class="text-xs font-semibold text-gray-600 uppercase tracking-wide mb-2">Menú</h3>
+                    <a href="#" class="sidebar-link flex items-center p-2 text-gray-700 rounded-lg mb-1">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                        </svg>
+                        Actividad
+                    </a>
+                    <a href="#" class="sidebar-link flex items-center p-2 text-gray-700 rounded-lg mb-1">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                        </svg>
+                        Perfil
+                    </a>
+                    {% if current_user.is_authenticated and current_user.__class__.__name__ == 'CommonUser' %}
+                    <a href="#" class="sidebar-link flex items-center p-2 text-gray-700 rounded-lg mb-1">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                        </svg>
+                        Favoritos
+                    </a>
+                    {% elif current_user.is_authenticated and current_user.__class__.__name__ == 'Empresa' %}
+                    <a href="#" class="sidebar-link flex items-center p-2 text-gray-700 rounded-lg mb-1">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                        </svg>
+                        Ofertas
+                    </a>
+                    <a href="#" class="sidebar-link flex items-center p-2 text-gray-700 rounded-lg mb-1">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                        </svg>
+                        Ubicaciones
+                    </a>
+                    {% elif current_user.is_authenticated and current_user.__class__.__name__ == 'Administrador' %}
+                    <a href="{{ url_for('admin.empresas') }}" class="sidebar-link flex items-center p-2 text-gray-700 rounded-lg mb-1">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+                        </svg>
+                        Empresas
+                    </a>                    
+                    <a href="#" class="sidebar-link flex items-center p-2 text-gray-700 rounded-lg mb-1">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                        </svg>
+                        Usuarios
+                    </a>
+                    {% endif %}
+                    <a href="#" class="sidebar-link flex items-center p-2 text-gray-700 rounded-lg">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                        </svg>
+                        Configuración
+                    </a>
+                </nav>
+            </div>
+        </aside>
+    
+        <!-- Contenido principal -->
+        <main class="flex-1 overflow-y-auto p-8">
+            <div class="max-w-7xl mx-auto">
+                <div class="flex justify-between items-center mb-8">
+                    <div>
+                        <h1 class="text-3xl font-bold text-gray-900">{% block titulo_panel %} {% endblock %}</h1>
+                        <p class="mt-1 text-sm text-gray-600">Bienvenido de nuevo</p>
+                    </div>
+                </div>
+
+                {% block gestion %} {% endblock %}
+            </div>
+        </main>
+    
+        <!-- Scripts -->
+        <script>
+            // Aquí iría el código JavaScript para la funcionalidad interactiva
+            document.addEventListener('DOMContentLoaded', function() {
+                // Mostrar/ocultar menús según el tipo de usuario
+                function showUserMenu(userType) {
+                    document.getElementById('menuCommonUser').style.display = userType === 'CommonUser' ? 'block' : 'none';
+                    document.getElementById('menuEmpresa').style.display = userType === 'Empresa' ? 'block' : 'none';
+                    document.getElementById('menuAdmin').style.display = userType === 'Administrador' ? 'block' : 'none';
+                }
+                
+                // Por defecto, mostrar el menú de administrador
+                showUserMenu('Administrador');
+            });
+        </script>
+
+
+    </div>
+</body>
+{% endblock %}
