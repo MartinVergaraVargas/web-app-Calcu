@@ -86,7 +86,7 @@
                             Opciones de usuario
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end">
-                            <li><a class="dropdown-item" href="#">Configuración</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('perfil.ver_perfil') }}">Configuración</a></li>
                             <li><a class="dropdown-item" href="#">Hazte socio</a></li>
                             <li><a class="dropdown-item" href="#">Sugerencias</a></li>
                             <li><hr class="dropdown-divider"></li>
@@ -107,7 +107,7 @@
                             Opciones de usuario
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end">
-                            <li><a class="dropdown-item" href="#">Configuración</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('perfil.ver_perfil') }}">Configuración</a></li>
                             <li><a class="dropdown-item" href="#">Sugerencias</a></li>
                             <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item" href="{{ url_for('admin.admin_dashboard') }}">Dashboard</a></li>

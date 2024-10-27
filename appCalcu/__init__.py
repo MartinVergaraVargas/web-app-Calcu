@@ -55,14 +55,12 @@ def create_app():
     # from .blueprints.calculadora.calculadora import calculadora_bp
     # app.register_blueprint(calculadora_bp, url_prefix='/calculadora')
 
-    
     app.register_blueprint(auth_bp, url_prefix='/auth')
-
-    from .blueprints.empresa.empresa import empresa_bp
-    app.register_blueprint(empresa_bp, url_prefix='/empresa')
 
     from .blueprints.administracion.administracion import admin_bp
     app.register_blueprint(admin_bp, url_prefix='/admin')
+    from .blueprints.perfil.perfil import perfil_bp
+    app.register_blueprint(perfil_bp, url_prefix='/perfil')
 
     return app
 

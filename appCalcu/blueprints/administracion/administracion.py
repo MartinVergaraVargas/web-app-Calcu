@@ -99,17 +99,17 @@ def registrar_empresa():
         nombre = request.form.get('nombre')
         telefono = request.form.get('telefono')
         email = request.form.get('email')
-        rut = request.form.get('rut')
+        rut_empresa = request.form.get('rut_empresa')
         sitio_web = request.form.get('sitio_web')
         rubro = request.form.get('rubro')
         descripcion = request.form.get('descripcion')
         password = request.form.get('password')
-        # Verificar si el email o RUT ya existen
+        # Verificar si el email o rut_empresa ya existen
         if Empresa.query.filter_by(email=request.form.get('email')).first():
             flash('El email ya está registrado', 'error')
             return redirect(url_for('admin.registrar_empresa'))
         
-        if Empresa.query.filter_by(rut=request.form.get('rut')).first():
+        if Empresa.query.filter_by(rut_empresa=request.form.get('rut_empresa')).first():
             flash('El RUT ya está registrado', 'error')
             return redirect(url_for('admin.registrar_empresa'))
 
@@ -120,7 +120,7 @@ def registrar_empresa():
             email=email,
             rubro=rubro,
             descripcion=descripcion,
-            rut=rut,
+            rut_empresa=rut_empresa,
             sitio_web=sitio_web,
             password=generate_password_hash(password, method='pbkdf2:sha256'),
         )

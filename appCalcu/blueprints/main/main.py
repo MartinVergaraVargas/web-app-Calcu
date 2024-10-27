@@ -28,31 +28,7 @@ def nosotros():
 def Bienvenida_nombre(nombre):
     return f'!Bienvenid@, {nombre}'
 
-# @main_bp.route('/add_ubicacion', methods=['GET', 'POST'])
-# @login_required
-# def add_ubicacion():
-#     if request.method == 'POST':
-#         latitud = request.form.get('latitud')
-#         longitud = request.form.get('longitud')
-#         direccion = request.form.get('direccion')
-#         es_propia = request.form.get('es_propia') == 'on'
+@main_bp.route('/configuracion')
+def configuracion():
+    return render_template('dashboard-base.html')
 
-#         new_ubicacion = Ubicacion(
-#             latitud=latitud,
-#             longitud=longitud,
-#             direccion=direccion,
-#             es_propia=es_propia,
-#             empresa_id=current_user.id  # Assuming you have a foreign key to Empresa
-#         )
-
-#         db.session.add(new_ubicacion)
-#         db.session.commit()
-#         flash('ubicacion added successfully!', 'success')
-#         return redirect(url_for('main.empresa_dashboard'))
-
-#     return render_template('add_ubicacion.html')
-
-# @main_bp.route('/empresa/ubicaciones')
-# def empresa_ubicaciones():
-#     ubicaciones = Ubicacion.query.all()  # Fetch all ubicaciones from the database
-#     return render_template('empresa_ubicaciones.html', ubicaciones=ubicaciones)

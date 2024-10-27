@@ -1,0 +1,90 @@
+{# appCalcu/blueprints/perfil/templates/ver_perfil.html #}
+{% extends 'dashboard-base.html' %}
+
+{% block titulo_panel %}Mi Perfil{% endblock %}
+
+{% block gestion %}
+<div class="bg-white rounded-lg shadow p-6">
+    <div class="space-y-6">
+        {% if current_user.__class__.__name__ == 'CommonUser' %}
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <h3 class="text-sm font-medium text-gray-500">Nombre</h3>
+                    <p class="mt-1 text-lg font-medium text-gray-900">{{ current_user.nombre_completo }}</p>
+                </div>
+                <div>
+                    <h3 class="text-sm font-medium text-gray-500">Fecha de Nacimiento</h3>
+                    <p class="mt-1 text-lg font-medium text-gray-900">{{ current_user.fecha_nacimiento.strftime('%d/%m/%Y') }}</p>
+                </div>
+                <div>
+                    <h3 class="text-sm font-medium text-gray-500">Email</h3>
+                    <p class="mt-1 text-lg font-medium text-gray-900">{{ current_user.email }}</p>
+                </div>
+                <div>
+                    <h3 class="text-sm font-medium text-gray-500">Teléfono</h3>
+                    <p class="mt-1 text-lg font-medium text-gray-900">{{ current_user.telefono or 'No especificado' }}</p>
+                </div>
+            </div>
+        {% elif current_user.__class__.__name__ == 'Empresa' %}
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <h3 class="text-sm font-medium text-gray-500">Nombre Empresa</h3>
+                    <p class="mt-1 text-lg font-medium text-gray-900">{{ current_user.nombre }}</p>
+                </div>
+                <div>
+                    <h3 class="text-sm font-medium text-gray-500">RUT Empresa</h3>
+                    <p class="mt-1 text-lg font-medium text-gray-900">{{ current_user.rut_empresa }}</p>
+                </div>
+                <div>
+                    <h3 class="text-sm font-medium text-gray-500">Email</h3>
+                    <p class="mt-1 text-lg font-medium text-gray-900">{{ current_user.email }}</p>
+                </div>
+                <div>
+                    <h3 class="text-sm font-medium text-gray-500">Teléfono</h3>
+                    <p class="mt-1 text-lg font-medium text-gray-900">{{ current_user.telefono or 'No especificado' }}</p>
+                </div>
+                <div>
+                    <h3 class="text-sm font-medium text-gray-500">Sitio Web</h3>
+                    <p class="mt-1 text-lg font-medium text-gray-900">
+                        {% if current_user.sitio_web %}
+                            <a href="{{ current_user.sitio_web }}" class="text-cyan-600 hover:text-cyan-700" target="_blank">
+                                {{ current_user.sitio_web }}
+                            </a>
+                        {% else %}
+                            No especificado
+                        {% endif %}
+                    </p>
+                </div>
+                <div>
+                    <h3 class="text-sm font-medium text-gray-500">Rubro</h3>
+                    <p class="mt-1 text-lg font-medium text-gray-900">{{ current_user.rubro }}</p>
+                </div>
+                <div class="col-span-2">
+                    <h3 class="text-sm font-medium text-gray-500">Descripción</h3>
+                    <p class="mt-1 text-lg font-medium text-gray-900">{{ current_user.descripcion or 'Sin descripción' }}</p>
+                </div>
+            </div>
+        {% else %}
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <h3 class="text-sm font-medium text-gray-500">Nombre</h3>
+                    <p class="mt-1 text-lg font-medium text-gray-900">{{ current_user.nombre }}</p>
+                </div>
+                <div>
+                    <h3 class="text-sm font-medium text-gray-500">Email</h3>
+                    <p class="mt-1 text-lg font-medium text-gray-900">{{ current_user.email }}</p>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+    <div class="mt-8 flex justify-end">
+        <a href="{{ url_for('perfil.editar_perfil') }}" 
+           class="px-6 py-3 bg-yellow-400 text-gray-800 font-semibold rounded-lg 
+                  hover:bg-yellow-500 transition-colors duration-300 
+                  shadow-md hover:shadow-lg">
+            Editar
+        </a>
+    </div>
+</div>
+{% endblock %}
+

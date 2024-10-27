@@ -3,10 +3,9 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, login_required, logout_user, UserMixin, current_user
 from appCalcu.models import CommonUser, Empresa, Administrador
 from flask_wtf.csrf import generate_csrf
-from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, DateField, TelField, BooleanField
-from wtforms.validators import DataRequired, Email, Length, EqualTo
-from datetime import datetime, timedelta
+from .forms.log_forms import SignupForm, LogInForm
+from datetime import datetime, timedelta, timezone
+from functools import wraps
 from appCalcu import db
 
 auth_bp = Blueprint('auth', __name__, template_folder="templates")
@@ -41,28 +40,94 @@ def guest():
     return 'hola invitado'
 
 #########################################################################################################################
-####################    Log in General    #############################################################################
-class LogInForm(FlaskForm):
-    email = StringField('Email', validators=[DataRequired(), Email()])
-    password = PasswordField('Contraseña', validators=[
-        DataRequired(),
-        Length(min=8, message='La contraseña debe tener al menos 8 caracteres')
-    ])
-    remember = BooleanField('Recuérdame')
+####################    Sistema de logins fallidos    ###################################################################
+failed_attempts = {}
+
+def check_login_attempts(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        ip = request.remote_addr
+        if ip in failed_attempts:
+            attempts = failed_attempts[ip]
+            if attempts['count'] >= 5 and datetime.now() < attempts['lockout_until']:
+                remaining = (attempts['lockout_until'] - datetime.now()).seconds
+                flash(f'Demasiados intentos fallidos. Por favor espere {remaining} segundos.', 'error')
+                return render_template('login.html', form=LogInForm())
+            elif datetime.now() > attempts['lockout_until']:
+                failed_attempts.pop(ip)
+        return f(*args, **kwargs)
+    return decorated_function
+
+# @auth_bp.route('/login', methods=['GET', 'POST'])
+# @check_login_attempts
+# def login():
+#     form = LogInForm()
+#     if form.validate_on_submit():
+#         # ... código de autenticación ...
+#         if not user or not check_password_hash(user.password, password):
+#             ip = request.remote_addr
+#             if ip not in failed_attempts:
+#                 failed_attempts[ip] = {'count': 1, 'lockout_until': datetime.now()}
+#             else:
+#                 failed_attempts[ip]['count'] += 1
+#                 if failed_attempts[ip]['count'] >= 5:
+#                     failed_attempts[ip]['lockout_until'] = datetime.now() + timedelta(minutes=5)
+#             flash('Correo electrónico o contraseña incorrectos', 'error')
 
 
+
+#########################################################################################################################
+####################    Log in General    ###############################################################################
 @auth_bp.route('/login', methods=['GET', 'POST'])
 def login():
     form = LogInForm()
     if form.validate_on_submit():
-        user = CommonUser.query.filter_by(email=form.email.data).first()
-        if user and check_password_hash(user.password, form.password.data):
-            remember = True if request.form.get('remember') else False
-            login_user(user, remember=remember)
-            return redirect(url_for('main.index'))
-        else:
-            flash('Correo electrónico o contraseña incorrectos')
+        email = form.email.data
+        password = form.password.data
+        remember = True if request.form.get('remember') else False
+
+        # Primero intentar con CommonUser para verificar email
+        user = CommonUser.query.filter_by(email=email).first()
+        if user and not user.verificacion_email:
+            flash('Por favor verifica tu correo electrónico antes de iniciar sesión', 'warning')
+            return render_template('login.html', form=form)
+
+        # Intentar autenticar con cada tipo de usuario
+        user = None
+        for UserModel in [CommonUser, Empresa, Administrador]:
+            user = UserModel.query.filter_by(email=email).first()
+            if user:
+                if not user.activo:
+                    flash('Esta cuenta está desactivada. Por favor contacte al administrador.', 'error')
+                    return render_template('login.html', form=form)
+                
+                if check_password_hash(user.password, password):
+                    # Actualizar última conexión
+                    user.ultima_conexion = datetime.now(timezone.utc)
+                    db.session.commit()
+                    
+                    login_user(user, remember=remember)
+                    
+                    # Redirigir según el tipo de usuario
+                    if isinstance(user, CommonUser):
+                        next_page = url_for('main.index')
+                    elif isinstance(user, Empresa):
+                        next_page = url_for('dashboard_empresa.dashboard')
+                    elif isinstance(user, Administrador):
+                        next_page = url_for('admin.admin_dashboard')
+                    
+                    # Verificar si hay una página siguiente en la URL
+                    if request.args.get('next'):
+                        next_page = request.args.get('next')
+                        
+                    flash(f'Bienvenido, {user.nombre}!', 'success')
+                    return redirect(next_page)
+                break
+
+        flash('Correo electrónico o contraseña incorrectos', 'error')
+            
     return render_template('login.html', form=form)
+
 
 #########################################################################################################################
 ####################    Creación de un usuario Administrador    #####################################################
@@ -121,22 +186,6 @@ def convert_to_admin(user_id):
 
 #########################################################################################################################
 ####################    Registro para usuario natural    ################################################################
-class SignupForm(FlaskForm):
-    email = StringField('Email', validators=[DataRequired(), Email()])
-    nombre = StringField('Nombre', validators=[DataRequired(), Length(min=2, max=100)])
-    apellido1 = StringField('Primer Apellido', validators=[DataRequired(), Length(min=2, max=100)])
-    apellido2 = StringField('Segundo Apellido', validators=[Length(max=100)])
-    fecha_nacimiento = DateField('Fecha de Nacimiento', validators=[DataRequired()])
-    telefono = TelField('Teléfono')
-    password = PasswordField('Contraseña', validators=[
-        DataRequired(),
-        Length(min=8, message='La contraseña debe tener al menos 8 caracteres')
-    ])
-    password_confirm = PasswordField('Confirmar Contraseña', validators=[
-        DataRequired(),
-        EqualTo('password', message='Las contraseñas deben coincidir')
-    ])
-
 @auth_bp.route('/signup', methods=['GET', 'POST'])
 def signup():
     form = SignupForm()

@@ -26,8 +26,20 @@ class CommonUser(User):
     token_verificacion = db.Column(db.String(100))  # Para el proceso de verificación por email
     
     # Relaciones
-    favoritos = db.relationship('Favorito', backref='usuario', lazy=True, cascade='all, delete-orphan')
-    reportes_stock = db.relationship('UsuarioStock', backref='usuario', lazy=True, cascade='all, delete-orphan')
+    favoritos = db.relationship('Favorito', 
+                              backref='usuario', 
+                              lazy=True, 
+                              cascade='all, delete-orphan')
+    
+    reportes_stock = db.relationship('UsuarioStock', 
+                                   backref='usuario', 
+                                   lazy=True, 
+                                   cascade='all, delete-orphan')
+    
+    @property
+    def ofertas_favoritas(self):
+        """Obtener las ofertas favoritas del usuario"""
+        return Oferta.query.join(Favorito).filter(Favorito.usuario_id == self.id).all()
     
     @property
     def nombre_completo(self):
@@ -71,7 +83,10 @@ class Oferta(db.Model):
     
     # Relaciones
     ubicaciones = db.relationship('UbicacionOferta', backref='oferta', lazy=True, cascade='all, delete-orphan')
-    usuarios_favoritos = db.relationship('CommonUser', secondary='favorito', backref=db.backref('ofertas_favoritas', lazy='dynamic'))
+    favoritos = db.relationship('Favorito', 
+                              backref='oferta', 
+                              lazy=True, 
+                              cascade='all, delete-orphan')
 
 class Ubicacion(db.Model):
     __tablename__ = 'ubicacion'
