@@ -78,6 +78,8 @@ def check_login_attempts(f):
 
 #########################################################################################################################
 ####################    Log in General    ###############################################################################
+# En auth.py
+
 @auth_bp.route('/login', methods=['GET', 'POST'])
 def login():
     form = LogInForm()
@@ -86,49 +88,60 @@ def login():
         password = form.password.data
         remember = True if request.form.get('remember') else False
 
-        # Primero intentar con CommonUser para verificar email
-        user = CommonUser.query.filter_by(email=email).first()
-        if user and not user.verificacion_email:
-            flash('Por favor verifica tu correo electrónico antes de iniciar sesión', 'warning')
+        # Buscar el usuario por email en todas las clases
+        user_classes = [CommonUser, Empresa, Administrador]
+        user = None
+        
+        for UserClass in user_classes:
+            temp_user = UserClass.query.filter_by(email=email).first()
+            if temp_user:
+                if user:
+                    # Si ya encontramos un usuario antes, hay un duplicado
+                    flash('Error del sistema: correo electrónico duplicado. Por favor contacte al administrador.', 'error')
+                    return render_template('login.html', form=form)
+                user = temp_user
+
+        if not user:
+            flash('Correo electrónico o contraseña incorrectos', 'error')
             return render_template('login.html', form=form)
 
-        # Intentar autenticar con cada tipo de usuario
-        user = None
-        for UserModel in [CommonUser, Empresa, Administrador]:
-            user = UserModel.query.filter_by(email=email).first()
-            if user:
-                if not user.activo:
-                    flash('Esta cuenta está desactivada. Por favor contacte al administrador.', 'error')
-                    return render_template('login.html', form=form)
-                
-                if check_password_hash(user.password, password):
-                    # Actualizar última conexión
-                    user.ultima_conexion = datetime.now(timezone.utc)
-                    db.session.commit()
-                    
-                    login_user(user, remember=remember)
-                    
-                    # Redirigir según el tipo de usuario
-                    if isinstance(user, CommonUser):
-                        next_page = url_for('main.index')
-                    elif isinstance(user, Empresa):
-                        next_page = url_for('dashboard_empresa.dashboard')
-                    elif isinstance(user, Administrador):
-                        next_page = url_for('admin.admin_dashboard')
-                    
-                    # Verificar si hay una página siguiente en la URL
-                    if request.args.get('next'):
-                        next_page = request.args.get('next')
-                        
-                    flash(f'Bienvenido, {user.nombre}!', 'success')
-                    return redirect(next_page)
-                break
+        # Verificar si la cuenta está activa
+        if not user.activo:
+            flash('Esta cuenta está desactivada. Por favor contacte al administrador.', 'error')
+            return render_template('login.html', form=form)
 
-        flash('Correo electrónico o contraseña incorrectos', 'error')
-            
+        # Verificar la contraseña
+        if not check_password_hash(user.password, password):
+            flash('Correo electrónico o contraseña incorrectos', 'error')
+            return render_template('login.html', form=form)
+
+        # Verificaciones específicas por tipo de usuario
+        if isinstance(user, CommonUser) and hasattr(user, 'verificacion_email'):
+            if not user.verificacion_email:
+                flash('Por favor verifica tu correo electrónico antes de iniciar sesión', 'warning')
+                return render_template('login.html', form=form)
+
+        # Actualizar última conexión
+        user.ultima_conexion = datetime.now(timezone.utc)
+        db.session.commit()
+
+        # Login exitoso
+        login_user(user, remember=remember)
+
+        # Redirigir según el tipo de usuario
+        next_page = request.args.get('next')
+        if not next_page:
+            if isinstance(user, CommonUser):
+                next_page = url_for('main.index')
+            elif isinstance(user, Empresa):
+                next_page = url_for('main.index')
+            elif isinstance(user, Administrador):
+                next_page = url_for('admin.dashboard')
+
+        flash(f'Bienvenido, {user.nombre}!', 'success')
+        return redirect(next_page)
+
     return render_template('login.html', form=form)
-
-
 #########################################################################################################################
 ####################    Creación de un usuario Administrador    #####################################################
 
@@ -205,9 +218,9 @@ def signup():
             password=generate_password_hash(form.password.data, method='pbkdf2:sha256'),
             fecha_nacimiento=form.fecha_nacimiento.data,
             telefono=form.telefono.data,
-            verificacion_email=False,  # Default value
-            token_verificacion=None    # Default value
-
+            verificacion_email=True,  # Cambiar para permitir la evaluacion de verificacion de email
+            token_verificacion=None,    # Default value
+            activo=True                 # Cambiar para permitir la evaluacion de verificacion de email
         )
         
         db.session.add(nuevo_usuario)

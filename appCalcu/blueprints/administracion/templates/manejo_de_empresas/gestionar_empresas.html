@@ -4,13 +4,41 @@
 <!-- Header con botón de nueva empresa -->
 <div class="flex justify-between items-center mb-6">
     {% block titulo_panel %} Gestión de Empresas {% endblock %}
-    <a href="{{ url_for('admin.registrar_empresa') }}" 
-       class="flex items-center px-4 py-2 bg-[#423a68] text-white rounded-lg hover:bg-[#0d8ba7] transition-colors">
-        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
-        </svg>
-        Nueva Empresa
-    </a>
+    <div class="flex items-center">
+        <a href="{{ url_for('admin.registrar_empresa') }}" 
+           class="px-6 py-3 bg-green-500 text-white font-semibold rounded-lg 
+                  hover:bg-green-600 transition-colors duration-300
+                  shadow-md hover:shadow-lg flex items-center">
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+            </svg>
+            Nueva Empresa
+        </a>
+        <form action="{{ url_for('admin.importar_empresas_csv') }}" method="post" enctype="multipart/form-data" class="flex items-center">
+            {{ form.csrf_token }}
+            {{ form.file(class="hidden", onchange="this.form.submit()", id="file") }}
+            <label for="file" class="px-6 py-3 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 transition-colors duration-300 shadow-md hover:shadow-lg flex items-center cursor-pointer">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                </svg>
+                Importar empresas
+            </label>
+        </form>
+        <!-- Formulario para importar ofertas CSV -->
+        <form action="{{ url_for('admin.importar_ofertas_csv') }}" method="POST" enctype="multipart/form-data" class="inline">
+            {{ form_ofertas.csrf_token }}
+            {{ form_ofertas.file(class="hidden", onchange="this.form.submit()", id="ofertasInput") }}
+            <label for="ofertasInput" 
+                    class="px-6 py-3 bg-purple-500 text-white font-semibold rounded-lg hover:bg-purple-600 transition-colors duration-300 shadow-md hover:shadow-lg cursor-pointer flex items-center">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                </svg>
+                Importar ofertas
+            </label>
+        </form>
+
+    </div>
+
 </div>
 
 <!-- Tabla de Empresas -->
@@ -57,7 +85,7 @@
                         </div>
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        {{ empresa.rut }}
+                        {{ empresa.rut_empresa }}
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                         {{ empresa.email }}

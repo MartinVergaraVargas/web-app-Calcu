@@ -36,19 +36,24 @@
                     <a class="nav-link" href="#">Mapa</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Socios</a>
+                    <a class="nav-link" href="{{ url_for('main.empresas') }}">Socios</a>
                 </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Ofertas
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-end">
-                            <li><a class="dropdown-item" href="#" {% if current_user.is_authenticated and current_user.__class__.__name__ != 'CommonUser' %}style="display: none;"{% endif %}>Favoritos</a></li>
-                            <li><a class="dropdown-item" href="#">Descuentos</a></li>
-                            <li><a class="dropdown-item" href="#">Productos</a></li>
-                            <li><a class="dropdown-item" href="#">Servicios</a></li>
-                        </ul>
-                    </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Ofertas
+                    </a>
+                    <ul class="dropdown-menu">
+                        {% if current_user.is_authenticated and current_user.__class__.__name__ == "CommonUser" %}
+                            <li><a class="dropdown-item" href="{{ url_for('main.index') }}">Favoritos</a></li>
+                        {% endif %}
+                        <li><a class="dropdown-item" href="{{ url_for('main.index', tipo='descuento') }}">Descuentos</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('main.index', tipo='producto') }}">Productos</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('main.index', tipo='servicio') }}">Servicios</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('main.index') }}">Todas las ofertas</a></li>
+                    </ul>
+                </li>
+                
+                
             </ul>
 
             <!-- Buscador centrado -->
@@ -110,7 +115,7 @@
                             <li><a class="dropdown-item" href="{{ url_for('perfil.ver_perfil') }}">Configuración</a></li>
                             <li><a class="dropdown-item" href="#">Sugerencias</a></li>
                             <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="{{ url_for('admin.admin_dashboard') }}">Dashboard</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('admin.dashboard') }}">Dashboard</a></li>
                             <li><a class="dropdown-item" href="{{ url_for('auth.logout') }}">Cerrar sesión</a></li>
                         </ul>
                     </li>
@@ -122,7 +127,7 @@
                         <a class="nav-link" href="#">Notificaciones</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('admin.admin_dashboard') }}">Dashboard</a>
+                        <a class="nav-link" href="{{ url_for('admin.dashboard') }}">Dashboard</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('auth.logout') }}">Logout</a>
