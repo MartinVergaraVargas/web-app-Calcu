@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calcu {% block title %}{% endblock %}</title>
+    <title>Glooba {% block title %}{% endblock %}</title>
     <!-- Incluir el CSS personalizado -->
     <link href="{{ url_for('static', filename='css/estilo.css') }}" rel="stylesheet">
     <!-- Bootstrap CSS -->
@@ -19,7 +19,7 @@
             <!-- Botón izquierdo: Logo y nombre de la app -->
             <a class="navbar-brand d-flex align-items-center" href="{{ url_for('main.index') }}">
                 <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo" class="me-2" width="30" height="24">
-                <span>Calcu</span>
+                <span>Glooba</span>
             </a>
 
             <!-- Botón hamburguesa -->
