@@ -1,4 +1,5 @@
-from flask import Blueprint, render_template, redirect, request, url_for, flash
+import os
+from flask import Blueprint, render_template, redirect, request, url_for, flash, current_app
 from flask_login import login_required, current_user
 from appCalcu.models import Empresa, Oferta, Ubicacion
 from sqlalchemy import func
@@ -142,16 +143,28 @@ def empresas():
             # Eliminar espacios en blanco
             sitio_web = sitio_web.strip()
 
+        # Verificar si existe el logo de la empresa
+        logo_filename = f"{empresa.nombre}.png"
+        logo_path = os.path.join('static', 'images', 'logos_de_empresas', logo_filename)
+        full_logo_path = os.path.join(current_app.root_path, logo_path)
+        
+        # Si existe el archivo, usar la ruta del logo, si no, usar el placeholder
+        if os.path.exists(full_logo_path):
+            logo_url = url_for('static', filename=f'images/logos_de_empresas/{logo_filename}')
+        else:
+            logo_url = '/api/placeholder/192/192'
 
         empresas_data.append({
             'id': empresa.id,
             'nombre': empresa.nombre,
             'descripcion': empresa.descripcion or "Sin descripción disponible",
             'rubro': empresa.rubro or "Rubro no especificado",
-            'sitio_web': empresa.sitio_web,
+            'sitio_web': sitio_web,
             'total_ofertas': total_ofertas,
-            'total_ubicaciones': total_ubicaciones
+            'total_ubicaciones': total_ubicaciones,
+            'logo_url': logo_url
         })
+
 
     # Obtener categorías únicas para el filtro
     categorias = db.session.query(Empresa.rubro).distinct().filter(
