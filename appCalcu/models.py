@@ -6,23 +6,35 @@ from . import db
 class User(UserMixin, db.Model):
     __abstract__ = True
     id = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String(100), unique=True, nullable=False)
-    password = db.Column(db.String(100), nullable=False)
-    nombre = db.Column(db.String(100), nullable=False)
+    email = db.Column(db.String(255), unique=True, nullable=False)
+    nombre = db.Column(db.String(255), nullable=False)
+    telefono = db.Column(db.String(100))
+    password = db.Column(db.String(255), nullable=False)
     fecha_registro = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc), nullable=False)
     activo = db.Column(db.Boolean, default=True, nullable=False)
     ultima_conexion = db.Column(db.DateTime)
 
+    # Agregar campo para identificar el tipo de usuario
+    @property
+    def user_type(self):
+        return self.__class__.__name__
+    
+    def get_id(self):
+        """
+        Sobrescribe el método get_id de UserMixin para incluir el tipo de usuario
+        """
+        return f"{self.user_type}:{self.id}"
+
     def __repr__(self):
         return f'<{self.__class__.__name__} {self.email}>'
+
 
 class CommonUser(User):
     __tablename__ = 'common_user'
     apellido1 = db.Column(db.String(100), nullable=False)
     apellido2 = db.Column(db.String(100))
     fecha_nacimiento = db.Column(db.Date, nullable=False)
-    telefono = db.Column(db.String(20))
-    verificacion_email = db.Column(db.Boolean, default=False)
+    verificacion_email = db.Column(db.Boolean)
     token_verificacion = db.Column(db.String(100))  # Para el proceso de verificación por email
     
     # Relaciones
@@ -50,14 +62,32 @@ class CommonUser(User):
 class Empresa(User):
     __tablename__ = 'empresa'
     rut_empresa = db.Column(db.String(50), unique=True, nullable=False)
-    telefono = db.Column(db.String(20))
-    sitio_web = db.Column(db.String(150))
-    rubro = db.Column(db.String(150))
+    sitio_web = db.Column(db.String(255))
+    rubro = db.Column(db.String(255))
     descripcion = db.Column(db.Text)
     
     # Relaciones
     ubicaciones = db.relationship('Ubicacion', backref='empresa', lazy=True, cascade='all, delete-orphan')
     ofertas = db.relationship('Oferta', backref='empresa', lazy=True, cascade='all, delete-orphan')
+
+    @property
+    def sitio_web_formateado(self):
+        """Retorna la URL del sitio web correctamente formateada"""
+        if not self.sitio_web:
+            return None
+            
+        url = self.sitio_web.strip()
+        if url and not url.startswith(('http://', 'https://')):
+            url = 'https://' + url
+        return url
+
+    def set_sitio_web(self, url):
+        """Formatea y valida la URL antes de guardarla"""
+        if url:
+            url = url.strip()
+            if not url.startswith(('http://', 'https://')):
+                url = 'https://' + url
+        self.sitio_web = url
 
 class Administrador(User):
     __tablename__ = 'administrador'

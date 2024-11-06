@@ -81,7 +81,13 @@
                     <input type="url" 
                            name="sitio_web" 
                            id="sitio_web" 
-                           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#0d8ba7] focus:ring focus:ring-[#0d8ba7] focus:ring-opacity-50">
+                           placeholder="https://www.ejemplo.com"
+                           pattern="https?://.+"
+                           title="Incluya http:// o https://"
+                           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+                    <p class="mt-1 text-sm text-gray-500">
+                        Ingrese la URL completa incluyendo http:// o https://
+                    </p>
                 </div>
                 <!-- Rubro -->
                 <div>
@@ -101,6 +107,17 @@
                 </div>
             </div>
         </div>
+            <!-- Mensajes de error -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="p-4 mb-4 rounded-lg {% if category == 'error' %}bg-red-100 text-red-700{% else %}bg-green-100 text-green-700{% endif %}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
         <!-- Botones de acción -->
         <div class="flex justify-end space-x-4 pt-6 border-t border-gray-200">
             <button type="button" 
@@ -199,6 +216,25 @@
             }
         }
         e.target.value = value;
+    });
+    document.getElementById('sitio_web').addEventListener('input', function(e) {
+    let url = e.target.value.trim();
+    
+    if (url && !url.match(/^https?:\/\/.+/)) {
+        // Si la URL no comienza con http:// o https://, agregar https://
+        if (!url.startsWith('http')) {
+            e.target.value = 'https://' + url;
+        }
+    }
+    });
+
+    document.querySelector('form').addEventListener('submit', function(e) {
+        const sitioWeb = document.getElementById('sitio_web').value.trim();
+        
+        if (sitioWeb && !sitioWeb.match(/^https?:\/\/.+\..+/)) {
+            e.preventDefault();
+            alert('Por favor ingrese una URL válida incluyendo http:// o https://');
+        }
     });
 </script>
 {% endblock %}

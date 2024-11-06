@@ -1,63 +1,86 @@
 {% extends "layout.html" %}
-
 {% block content %}
+
+
 <div class="container mt-4">
-    <!-- ofertas -->
     <section class="ofertas">
-      <h2>Ofertas Destacadas</h2>
-      <div class="ofertas-grid">
-          <!-- oferta Card 1 -->
-          <div class="oferta-card">
-              <div class="oferta-image">
-                  <img src="/api/placeholder/200/200" alt="Oferta 1">
-              </div>
-              <h3 class="oferta-title">Auriculares Inalámbricos Bluetooth</h3>
-              <p class="oferta-price">€29.99</p>
-              <p>4.5 ★ | 2345 vendidos</p>
-          </div>
+        <h2 class="mb-4">Ofertas Disponibles</h2>
 
-          <!-- oferta Card 2 -->
-          <div class="oferta-card">
-              <div class="oferta-image">
-                  <img src="/api/placeholder/200/200" alt="Oferta 2">
-              </div>
-              <h3 class="oferta-title">Smartwatch Deportivo</h3>
-              <p class="oferta-price">€45.99</p>
-              <p>4.7 ★ | 1890 vendidos</p>
-          </div>
+        <div class="ofertas-grid">
+            {% for oferta in ofertas %}
+                <div class="oferta-card">
+                    <div class="oferta-image">
+                        <img src="/api/placeholder/200/200" alt="{{ oferta.titulo }}">
+                    </div>
+                    
+                    <div class="oferta-content">
+                        <h3 class="oferta-title">{{ oferta.titulo }}</h3>
+                        <div class="oferta-details">
+                            <p class="precio">{{ oferta.precio_mostrar }}</p>
+                            <p class="empresa">{{ oferta.empresa }}</p>
+                            <p class="tipo">{{ oferta.tipo }}</p>
+                        </div>
+                    </div>
 
-          <!-- oferta Card 3 -->
-          <div class="oferta-card">
-              <div class="oferta-image">
-                  <img src="/api/placeholder/200/200" alt="Oferta 3">
-              </div>
-              <h3 class="oferta-title">Funda de Teléfono Premium</h3>
-              <p class="oferta-price">€12.99</p>
-              <p>4.3 ★ | 3456 vendidos</p>
-          </div>
+                    <!-- Descripción que aparece en hover -->
+                    <div class="oferta-description">
+                        <h4 class="mb-3">{{ oferta.titulo }}</h4>
+                        <p>{{ oferta.descripcion }}</p>
+                    </div>
+                </div>
+            {% endfor %}
 
-          <!-- oferta Card 4 -->
-          <div class="oferta-card">
-              <div class="oferta-image">
-                  <img src="/api/placeholder/200/200" alt="Oferta 4">
-              </div>
-              <h3 class="oferta-title">Cargador Rápido USB-C</h3>
-              <p class="oferta-price">€19.99</p>
-              <p>4.6 ★ | 2789 vendidos</p>
-          </div>
+            {% if not ofertas %}
+                <div class="no-ofertas">
+                    <p>No hay ofertas disponibles en este momento.</p>
+                </div>
+            {% endif %}
+        </div>
 
-          <!-- oferta Card 5 -->
-          <div class="oferta-card">
-            <div class="oferta-image">
-                <img src="/api/placeholder/200/200" alt="Oferta 5">
+        {% if pagination.pages > 1 %}
+            <div class="pagination-container">
+                <nav aria-label="Navegación de páginas">
+                    <ul class="pagination justify-content-center">
+                        {% if pagination.has_prev %}
+                            <li class="page-item">
+                                <a class="page-link" href="{{ url_for('main.index', page=pagination.prev_num) }}">
+                                    &laquo; Anterior
+                                </a>
+                            </li>
+                        {% endif %}
+
+                        {% for page_num in pagination.iter_pages(left_edge=2, left_current=2, right_current=2, right_edge=2) %}
+                            {% if page_num %}
+                                {% if page_num == pagination.page %}
+                                    <li class="page-item active">
+                                        <span class="page-link">{{ page_num }}</span>
+                                    </li>
+                                {% else %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="{{ url_for('main.index', page=page_num) }}">
+                                            {{ page_num }}
+                                        </a>
+                                    </li>
+                                {% endif %}
+                            {% else %}
+                                <li class="page-item disabled">
+                                    <span class="page-link">...</span>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+
+                        {% if pagination.has_next %}
+                            <li class="page-item">
+                                <a class="page-link" href="{{ url_for('main.index', page=pagination.next_num) }}">
+                                    Siguiente &raquo;
+                                </a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </nav>
             </div>
-            <h3 class="oferta-title">Cargador Rápido USB-C</h3>
-            <p class="oferta-price">€19.99</p>
-            <p>4.6 ★ | 2789 vendidos</p>
-          </div>
-      </div>
-  </section>
+        {% endif %}
+    </section>
 </div>
-  
-</div>
-{% endblock%}
+
+{% endblock %}
